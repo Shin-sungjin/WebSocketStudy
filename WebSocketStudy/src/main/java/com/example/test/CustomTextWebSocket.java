@@ -9,7 +9,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 public class CustomTextWebSocket extends TextWebSocketHandler{
 
 
-
+ 
 	/**@author Shinsungjin 
 	 * 
 	 *  주로 텍스트 기반의 메시지를 처리하는 데 사용됩니다.

@@ -1,10 +1,23 @@
 package com.example.test;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
+@Getter
+@Component
 public class CustomWebSocketHandler implements WebSocketHandler {
 
 	/**
@@ -16,12 +29,20 @@ public class CustomWebSocketHandler implements WebSocketHandler {
 	 * */
 	
 	
+	/* 웹 소켓 활성화 session 관리 */
+	private final Map<String, WebSocketSession> sessionMap = new ConcurrentHashMap<>();
+		
+	
+	
 	/** WebSocket 연결 성공 시 사용할 준비가 완료 될 때 호출 될 메소드 
 	 *  @param WebSocketSession
 	 * */
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		// TODO Auto-generated method stub
+		log.info("{} 연결 활성화", session.getId());
+		
+		sessionMap.putIfAbsent(session.getId(), session);
+		log.info("{} 웹 소켓 session 생성 완료", session);
 	}
 
 	/** 새로운 WebSocket 메시지가 도착했을 때 호출, 
@@ -32,6 +53,17 @@ public class CustomWebSocketHandler implements WebSocketHandler {
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
 		// TODO Auto-generated method stub
+		String payload = message.getPayload().toString();
+		log.info("received message, session id={}, message={}", session.getId(), payload);
+		//broadcasting message to all session
+		sessionMap.forEach((sessionId, session1) -> {
+			try {
+				session1.sendMessage(message);
+			} catch (Exception e) {
+				log.error("fail to send message to session id={}, error={}",
+					sessionId, e.getMessage());
+			}
+		});
 		
 	}
 
@@ -51,7 +83,8 @@ public class CustomWebSocketHandler implements WebSocketHandler {
 	 * */
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-		
+		 log.info("{} 웹소켓 해제", session);
+	     sessionMap.remove(session.getId());
 	}
 
 	/**
@@ -65,5 +98,6 @@ public class CustomWebSocketHandler implements WebSocketHandler {
 		boolean ck =true;
 		return ck;
 	}
+	
 
 }

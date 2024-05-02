@@ -1,13 +1,18 @@
 package com.example.test;
 
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
+import lombok.RequiredArgsConstructor;
 
-@Configurable
+
+@Configuration
+@RequiredArgsConstructor
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer{
 
@@ -21,13 +26,13 @@ public class WebSocketConfig implements WebSocketConfigurer{
 	 * *setAllowedOrigins : 웹소켓 cors 정책으로인해, 허용 도메인 지정.
 	 * */
 	
-	
-	private CustomWebSocketHandler webSocketHandle;
+	private WebSocketHandler webSocketHandle = new CustomWebSocketHandler();
 	
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(webSocketHandle,"/webSocketTest").setAllowedOrigins("*");
+		registry.addHandler(webSocketHandle,"/webSocketTest")
+		.setAllowedOrigins("*");
 	
 	}
-
+		
 }
