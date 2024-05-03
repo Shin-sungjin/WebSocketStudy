@@ -39,8 +39,8 @@ public class CustomWebSocketHandler implements WebSocketHandler {
 	 * */
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		//여기로 들어오는 Session에는 Session ID, WebSocketID가 들어와있음 
 		log.info("{} 연결 활성화", session.getId());
-		
 		sessionMap.putIfAbsent(session.getId(), session);
 		log.info("{} 웹 소켓 session 생성 완료", session);
 	}
@@ -54,10 +54,17 @@ public class CustomWebSocketHandler implements WebSocketHandler {
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
 		// TODO Auto-generated method stub
 		String payload = message.getPayload().toString();
-		log.info("received message, session id={}, message={}", session.getId(), payload);
+		// payload = message
+		log.info("received message, session id={}, message={}", session.getId().toString(), payload);
 		//broadcasting message to all session
+		log.info("testLog");
 		sessionMap.forEach((sessionId, session1) -> {
 			try {
+				log.info("SessiongID ==>{} ,,  ssesison num  ==> {}", sessionId, session1);
+				log.info("message  ==>{}", message);
+				log.info("message class ==>{}", message.getClass());
+				log.info("message payload    => {}", message.getPayload());
+				log.info("message payloadLen=>{}", message.getPayloadLength());
 				session1.sendMessage(message);
 			} catch (Exception e) {
 				log.error("fail to send message to session id={}, error={}",
