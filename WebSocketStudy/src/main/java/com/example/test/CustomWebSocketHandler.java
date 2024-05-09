@@ -32,11 +32,10 @@ public class CustomWebSocketHandler implements WebSocketHandler {
 	/* 웹 소켓 활성화 session 관리 */
 	private final Map<String, WebSocketSession> sessionMap = new ConcurrentHashMap<>();
 		
-	
-	
 	/** WebSocket 연결 성공 시 사용할 준비가 완료 될 때 호출 될 메소드 
 	 *  @param WebSocketSession
 	 * */
+	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		//여기로 들어오는 Session에는 Session ID, WebSocketID가 들어와있음 
@@ -49,7 +48,7 @@ public class CustomWebSocketHandler implements WebSocketHandler {
 	 *  수식 된 메세지 처리 및 응답 생성, 
 	 *  ex) 특정 메시지 유형 파싱 -> 그에 대한 응답 생성
 	 *  @param WebSocketSession ㅡ WebSocketMessage
-	 * */
+	 */
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
 		// TODO Auto-generated method stub
@@ -71,23 +70,21 @@ public class CustomWebSocketHandler implements WebSocketHandler {
 					sessionId, e.getMessage());
 			}
 		});
-		
 	}
-
+	
 	/** 웹소켓 오류 처리 
-	 * 연결이 유실 or 오류 발생 시 대처 방법
-	 * */
+	 *  연결이 유실 or 오류 발생 시 대처 방법
+	 */
 	@Override
 	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
-	
-	/**연결 종료 이후 호출 
-	 * 정리 작업 등 ㄷ
-	 * DB 저장에 사용을 하거나, 저장 처리 하면 될 것 같다 
-	 * */
+	/** 연결 종료 이후 호출 
+	 *  정리 작업 등 ㄷ
+	 *  DB 저장에 사용을 하거나, 저장 처리 하면 될 것 같다 
+	 */
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
 		 log.info("{} 웹소켓 해제", session);
@@ -98,8 +95,8 @@ public class CustomWebSocketHandler implements WebSocketHandler {
 	 * 이 메소드는 WebSocketHandler가 부분 메세지를 처리하느지에 대한 여부 
 	 * 부분 메세지 처리시 True , 아닐 경우 False 
 	 *  실시간 구현이라면 True가 적절해 보임
-	 *  
 	 * */
+	
 	@Override
 	public boolean supportsPartialMessages() {
 		boolean ck =true;
