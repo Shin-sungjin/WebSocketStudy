@@ -11,18 +11,22 @@ import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 import jakarta.servlet.ServletContext;
+import lombok.extern.log4j.Log4j2;
 
-@Component
+@Log4j2
 public class CustomHandShakeHandler extends DefaultHandshakeHandler {
 
 	private ServletContext servletContext;
 	
 	@Override
 	public void setServletContext(ServletContext servletContext) {
+		log.info("suepr class = > {}", super.getClass());
+		log.info("sueprgetSupportedVersions = > {}", super.getSupportedVersions());
+		log.info("suepr getSupportedProtocols = > {}", super.getSupportedProtocols());
+		log.info("HandShake");
 		this.servletContext = servletContext;
+		log.info("servletContext");
 		super.setServletContext(servletContext);
+		
 	}
-
-
-
 }

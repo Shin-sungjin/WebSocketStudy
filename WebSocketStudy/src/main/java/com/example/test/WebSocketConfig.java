@@ -11,14 +11,15 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 import org.springframework.web.socket.server.HandshakeHandler;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
-
+@Log4j2
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer{
 
-	/**@author Shinsungjin
+	/**@author Shinsungjin   
 	 * 
 	 * 웹 소켓에 대한 기본적인 경로 설정을 하는 부분
 	 * webSocket을 컨트롤 할 handler를 선언하고, webSocket 기본 경로를 지정한다. 
@@ -30,7 +31,8 @@ public class WebSocketConfig implements WebSocketConfigurer{
 		
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(new CustomWebSocketHandler(),"/webSocketTest")
+		log.info("페이지 접속시 여기 타는거 맞아?");
+		registry.addHandler(new CustomWebSocketHandler(),"/webSocket")
 		.setHandshakeHandler(new CustomHandShakeHandler())
 		.setAllowedOrigins("*");
 	}
