@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>WebSocket Example</title>
+	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+	<script src="stomp.js"></script>
     <script>
         // SockJS를 사용하여 WebSocket 연결 설정
-        var socket = new SockJS('ws://localhost:8081/webSocket'); // WebSocket 서버의 엔드포인트 URL로 변경
+        var socket = new SockJS('http://localhost:8081/chat'); // WebSocket 서버의 엔드포인트 URL로 변경
         var stompClient = Stomp.over(socket);
 
         // WebSocket 연결이 성공적으로 설정되었을 때 호출될 콜백 함수

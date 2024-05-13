@@ -22,11 +22,7 @@ public class CustomHandShakeHandler extends DefaultHandshakeHandler {
 	public void setServletContext(ServletContext servletContext) {
 		log.info("suepr class = > {}", super.getClass());
 		log.info("sueprgetSupportedVersions = > {}", super.getSupportedVersions());
-		log.info("suepr getSupportedProtocols = > {}", super.getSupportedProtocols());
-		log.info("HandShake");
 		this.servletContext = servletContext;
-		log.info("servletContext");
 		super.setServletContext(servletContext);
-		
 	}
 }
